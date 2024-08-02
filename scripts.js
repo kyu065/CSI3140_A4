@@ -1,20 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("patients.csv")
-        .then(response => response.text())
+    fetch("get_patients.php")
+        .then(response => response.json())
         .then(data => {
-            const rows = data.split("\n").slice(1); // Skip header
-            const tableBody = document.querySelector("#patientTable tbody");
+            const tableBody = document.querySelector("#patients tbody");
+            tableBody.innerHTML = ''; // Clear existing rows
 
-            rows.forEach(row => {
-                if (row.trim() === "") return; // Skip empty rows
-                const [name, severity, waitTime] = row.split(",");
+            data.forEach(patient => {
                 const tr = document.createElement("tr");
                 tr.innerHTML = `
-                    <td>${name}</td>
-                    <td>${severity}</td>
-                    <td>${waitTime}</td>
+                    <td>${patient.name}</td>
+                    <td>${patient.severity}</td>
+                    <td>${patient.wait_time}</td>
                 `;
                 tableBody.appendChild(tr);
             });
-        });
+        })
+        .catch(error => console.error('Error fetching patient data:', error));
 });
+

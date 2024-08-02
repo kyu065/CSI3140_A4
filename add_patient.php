@@ -4,16 +4,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $severity = htmlspecialchars($_POST["severity"]);
     $waitTime = htmlspecialchars($_POST["waitTime"]);
 
-    $file = 'patients.csv';
-    $data = [$name, $severity, $waitTime];
-    
-    $handle = fopen($file, 'a'); // Open the file in append mode
-    if ($handle) {
-        fputcsv($handle, $data); // Write the data to the CSV
-        fclose($handle);
+    // Connect to PostgreSQL
+    $dsn = 'pgsql:host=localhost;dbname=clientdb';
+    $username = 'postgres';
+    $password = 'superuser'; // Update with your PostgreSQL password
+
+    try {
+        $pdo = new PDO($dsn, $username, $password);
+    } catch (PDOException $e) {
+        echo 'Connection failed: ' . $e->getMessage();
+        exit();
     }
-    
-    header("Location: index.html"); // Redirect back to the index page
+
+    // Inserts the patient data into the database
+    $sql = 'INSERT INTO patients (name, severity, wait_time) VALUES (?, ?, ?)';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([$name, $severity, $waitTime]);
+
+    header("Location: index.php"); // Redirects to index page
     exit();
 }
 ?>

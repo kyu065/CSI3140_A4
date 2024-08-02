@@ -1,28 +1,23 @@
 <?php
 header('Content-Type: application/json');
 
-// Open the CSV file for reading
-$file = fopen('patients.csv', 'r');
-$data = [];
+// Connect to PostgreSQL
+$dsn = 'pgsql:host=localhost;dbname=clientdb';
+$username = 'postgres';
+$password = 'superuser'; // Update with your PostgreSQL password
 
-// Read the CSV file line by line
-while (($row = fgetcsv($file)) !== FALSE) {
-    // Skip the header row
-    if ($row[0] === 'id') {
-        continue;
-    }
-    $data[] = [
-        'id' => $row[0],
-        'name' => $row[1],
-        'severity' => $row[2],
-        'wait_time' => $row[3],
-        'created_at' => $row[4]
-    ];
+try {
+    $pdo = new PDO($dsn, $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Fetch patient data from the database
+    $sql = 'SELECT * FROM patients';
+    $stmt = $pdo->query($sql);
+
+    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    echo json_encode($data);
+} catch (PDOException $e) {
+    echo json_encode(['error' => $e->getMessage()]);
 }
-
-// Close the file
-fclose($file);
-
-// Return the data as JSON
-echo json_encode($data);
 ?>
