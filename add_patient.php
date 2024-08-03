@@ -7,8 +7,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Connect to PostgreSQL
     $dsn = 'pgsql:host=localhost;dbname=clientdb';
     $username = 'postgres';
-    $password = 'superuser'; // Update with your PostgreSQL password
-
+    $password = 'superuser'; 
+    
     try {
         $pdo = new PDO($dsn, $username, $password);
     } catch (PDOException $e) {
@@ -25,3 +25,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     exit();
 }
 ?>
+

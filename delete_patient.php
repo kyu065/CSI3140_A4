@@ -6,9 +6,9 @@ $data = json_decode(file_get_contents('php://input'), true);
 $patientId = $data['id'];
 
 // Connect to PostgreSQL
-$dsn = 'pgsql:host=localhost;dbname=clientd';
+$dsn = 'pgsql:host=localhost;dbname=clientdb';
 $username = 'postgres';
-$password = 'superuser'; // Update with your PostgreSQL password
+$password = 'superuser'; 
 
 try {
     $pdo = new PDO($dsn, $username, $password);
