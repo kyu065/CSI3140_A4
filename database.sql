@@ -2,7 +2,7 @@
 
 -- DROP DATABASE IF EXISTS clientdb;
 
-CREATE DATABASE Hospital
+CREATE DATABASE clientdb
     WITH
     OWNER = postgres
     ENCODING = 'UTF8'

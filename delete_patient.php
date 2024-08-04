@@ -1,11 +1,8 @@
 <?php
 header('Content-Type: application/json');
+$input = json_decode(file_get_contents('php://input'), true);
 
-// Get patient ID from POST request
-$data = json_decode(file_get_contents('php://input'), true);
-$patientId = $data['id'];
-
-// Connect to PostgreSQL
+// Database connection
 $dsn = 'pgsql:host=localhost;dbname=clientdb';
 $username = 'postgres';
 $password = 'superuser'; 
@@ -17,15 +14,14 @@ try {
     exit();
 }
 
-// Delete patient from the database
-$sql = 'DELETE FROM patients WHERE id = ?';
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$patientId]);
+if (isset($input['id'])) {
+    $id = intval($input['id']);
 
-// Adjust wait times
-$sql = 'UPDATE patients SET wait_time = wait_time - 5 WHERE wait_time > 0';
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
+    $sql = 'DELETE FROM patients WHERE id = ?';
+    $stmt = $pdo->prepare($sql);
+    $result = $stmt->execute([$id]);
 
-echo json_encode(['success' => true]);
-?>
+    echo json_encode(['success' => $result]);
+} else {
+    echo json_encode(['success' => false, 'error' => 'No ID provided']);
+}

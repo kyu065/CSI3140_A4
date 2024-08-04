@@ -2,7 +2,7 @@
 // Start session if needed
 session_start();
 
-// Database connection details
+// Database connection 
 $dsn = 'pgsql:host=localhost;dbname=clientdb';
 $username = 'postgres';
 $password = 'superuser'; 
@@ -14,47 +14,48 @@ try {
     die('Connection failed: ' . $e->getMessage());
 }
 
-// Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add'])) {
-    $name = htmlspecialchars($_POST["name"]);
-    $severity = htmlspecialchars($_POST["severity"]);
-    $waitTime = htmlspecialchars($_POST["waitTime"]);
+// Handles form submissions
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['add'])) {
+        $name = htmlspecialchars($_POST["name"]);
+        $severity = htmlspecialchars($_POST["severity"]);
+        $waitTime = htmlspecialchars($_POST["waitTime"]);
 
-    // Insert patient data
-    $sql = 'INSERT INTO patients (name, severity, wait_time) VALUES (?, ?, ?)';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$name, $severity, $waitTime]);
+        // Inserts patient data
+        $sql = 'INSERT INTO patients (name, severity, wait_time) VALUES (?, ?, ?)';
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$name, $severity, $waitTime]);
 
-    header("Location: index.php");
-    exit();
+        header("Location: index.php");
+        exit();
+    }
+
+    if (isset($_POST['deleteById'])) {
+        $id = intval($_POST["id"]);
+
+        // Deletes patient
+        $sql = 'DELETE FROM patients WHERE id = ?';
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$id]);
+
+        header("Location: index.php");
+        exit();
+    }
+
+    if (isset($_POST['deleteByName'])) {
+        $name = htmlspecialchars($_POST["deleteName"]);
+
+        // Delete patient by name
+        $sql = 'DELETE FROM patients WHERE name = ?';
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$name]);
+
+        header("Location: index.php");
+        exit();
+    }
 }
 
-// Handle delete request
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteById'])) {
-    $id = intval($_POST["id"]);
-
-    // Delete patient
-    $sql = 'DELETE FROM patients WHERE id = ?';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$id]);
-
-    header("Location: index.php");
-    exit();
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['deleteByName'])) {
-    $name = htmlspecialchars($_POST["deleteName"]);
-
-    // Delete patient by name
-    $sql = 'DELETE FROM patients WHERE name = ?';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$name]);
-
-    header("Location: index.php");
-    exit();
-}
-
-// Fetch patient data
+// Fetching patient data
 $sql = 'SELECT * FROM patients';
 $stmt = $pdo->query($sql);
 $patients = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -69,7 +70,11 @@ $patients = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Patient Management</h1>
+    <div class="header">
+        <h1>Patient Management</h1>
+        <button id="goToClientPage">Go to Client Page</button>
+    </div>
+
     <h2>Add Patient</h2>
     <form method="POST" action="">
         <label for="name">Name:</label>
@@ -118,8 +123,6 @@ $patients = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <input type="text" id="deleteName" name="deleteName" required>
         <button type="submit" name="deleteByName">Delete by Name</button>
     </form>
-
-    <button id="goToClientPage">Go to Client Page</button>
 
     <script src="scripts.js"></script>
 </body>
