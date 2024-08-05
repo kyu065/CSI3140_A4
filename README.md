@@ -5,6 +5,10 @@ This repository contains the code for the Hospital Triage application. The appli
 ## GitHub Repository Link
 
 [GitHub Repository Link](https://github.com/kyu065/CSI3140_A4)
+ 
+ ## Contributors
+- Kevin Yu - 300230560
+- Eric Kwak - 300264568
 
 ## How The Application Works
 
@@ -68,9 +72,4 @@ Administrators have access to a full list of patients and can manage patient dat
      $password 
     - The password credential is set to your individual passwrod
     - In the current files formats, the password is set to superuser. Ensure all file documents are adjusted to contain your username and password 
-
- 
- ## Contributors
-- Kevin Yu - 300230560
-- Eric Kwak - 300264568
 
