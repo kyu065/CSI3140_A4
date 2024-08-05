@@ -3,6 +3,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = htmlspecialchars($_POST["name"]);
     $severity = htmlspecialchars($_POST["severity"]);
     $waitTime = htmlspecialchars($_POST["waitTime"]);
+    $code = htmlspecialchars($_POST["code"]);
 
     // Connect to PostgreSQL
     $dsn = 'pgsql:host=localhost;dbname=clientdb';
@@ -16,10 +17,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    // Inserts the patient data into the database
-    $sql = 'INSERT INTO patients (name, severity, wait_time) VALUES (?, ?, ?)';
+    // Insert patient data
+    $sql = 'INSERT INTO patients (name, severity, wait_time, code) VALUES (?, ?, ?, ?)';
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$name, $severity, $waitTime]);
+    
+    try {
+        $stmt->execute([$name, $severity, $waitTime, $code]);
+    } catch (PDOException $e) {
+        if ($e->getCode() == '23505') {
+            echo "<script>alert('A patient with this code already exists.'); window.location.href = 'index.php';</script>";
+            exit();
+        } else {
+            die('Insert failed: ' . $e->getMessage());
+        }
+    }
 
     header("Location: index.php"); // Redirects to index page
     exit();

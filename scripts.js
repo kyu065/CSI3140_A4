@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "client.php";
         });
     }
-    
+
     // Fetches and displays patient data for the admin page
     if (document.querySelector("#patients")) {
         fetch("get_patients.php")

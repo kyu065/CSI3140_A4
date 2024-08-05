@@ -28,6 +28,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             die('Invalid severity value.');
         }
 
+        // Check if code already exists
+        $checkSql = 'SELECT COUNT(*) FROM patients WHERE code = ?';
+        $checkStmt = $pdo->prepare($checkSql);
+        $checkStmt->execute([$code]);
+        $exists = $checkStmt->fetchColumn();
+
+        if ($exists) {
+            echo "<script>alert('A patient with this code already exists.'); window.location.href = 'index.php';</script>";
+            exit();
+        }
+
         // Inserts patient data
         $sql = 'INSERT INTO patients (name, severity, wait_time, code) VALUES (?, ?, ?, ?)';
         $stmt = $pdo->prepare($sql);
@@ -67,8 +78,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Fetching patient data
-$sql = 'SELECT * FROM patients';
+// Fetching patient data with ordering
+$sql = 'SELECT * FROM patients ORDER BY 
+        CASE severity
+            WHEN \'High\' THEN 1
+            WHEN \'Medium\' THEN 2
+            WHEN \'Low\' THEN 3
+        END, wait_time ASC';
 $stmt = $pdo->query($sql);
 $patients = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
