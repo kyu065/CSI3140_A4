@@ -1,4 +1,4 @@
- # Hospital Triage Web Application    (
+ # Hospital Triage Web Application    
 
 This repository contains the code for the Hospital Triage application. The application helps staff and patients better understand wait times while in the emergency room.
 (Links to Assignments 1 --- 3 in bottom of md page)
