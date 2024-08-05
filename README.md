@@ -18,6 +18,7 @@ The Hospital Triage application has two main interfaces:
 
 Patients can check their current wait time by inputting their name and code on the client/patient page.
 - **Check WaitTime** - Patients sign in and are presented with a message displaying the current wait time.
+                     - Patients have to input their respective name and given code. 
 
 ### Admin Interface
 
@@ -25,7 +26,7 @@ Administrators have access to a full list of patients and can manage patient dat
 
 ## Application Features
 
-- **Adding Patients**: Both the client and admin pages have forms for adding patients. The admin can view and manage all patients, while clients can only add their own information.
+- **Adding Patients**: Both the client and admin pages have forms for adding patients. The admin can view and manage all patients, while clients can only add their own information. Admins insert a patient into the list using, name, severity, waittime and code as inputs. 
 - **Viewing Patients**: Admins can view a complete list of patients, including their names, severity, and wait times.
 - **Deleting Patients**: Admins can delete patients either from the list view or by entering a name in the provided form.
 
