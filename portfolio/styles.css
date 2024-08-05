@@ -1,0 +1,118 @@
+/* General Styles */
+body {
+    margin: 0;
+    height: 100vh; 
+    background: linear-gradient(lightskyblue, white); /* Gradient Body Background */
+    font-family: Arial, sans-serif;
+}
+
+body.sub {
+    margin: 0;
+    min-height:100%;
+    height: 100%; 
+    background: linear-gradient(lightskyblue, white); /* Gradient Body Background */
+    background-size: cover;
+    font-family: Arial, sans-serif;
+}
+
+/* Heading Styles */
+h1 {
+    font-weight: bold;
+}
+
+/* Container Styles */
+.container {
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Bold Class Styles */
+.bold {
+    font-weight: bold;
+}
+
+/* Horizontal Rule Styles */
+hr {
+    border: none;
+    height: 2px;
+    background-color: #333; 
+}
+
+/* Button Styles */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #41a8d4;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px #333;
+}
+
+.button:hover {
+    background-color: #339ac7;
+    transition: 0.15s;
+}
+
+.button.right {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-right: 10px;
+    background-color: #41a8d4;
+    color: white;
+    text-align: right;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px #333;
+}
+
+.button.right:hover {
+    background-color: #339ac7;
+    transition: 0.15s;
+}
+
+.buttons {
+    display: flex;
+    gap: 5px;
+    margin-right: 10px;
+}
+
+/* Specific Text Alignments */
+h1, h2, p {
+    text-align: center;
+}
+
+/* Right-Aligned Text */
+.right {
+    float: right;
+    text-align: right;
+}
+
+/* Left-Float Text*/
+.left {
+    float: left;
+}
+
+/* Image Styles*/
+.img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Center-Aligning Styles*/
+.center {
+    text-align: center;
+}
+
+/* Flex Display Styles*/
+.flex {
+    display:flex
+    
+}
