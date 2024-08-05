@@ -1,6 +1,7 @@
- # Hospital Triage Web Application
+ # Hospital Triage Web Application    (
 
 This repository contains the code for the Hospital Triage application. The application helps staff and patients better understand wait times while in the emergency room.
+(Links to Assignments 1 --- 3 in bottom of md page)
 
 ## GitHub Repository Link
 
@@ -74,3 +75,6 @@ Administrators have access to a full list of patients and can manage patient dat
     - The password credential is set to your individual passwrod
     - In the current files formats, the password is set to superuser. Ensure all file documents are adjusted to contain your username and password 
 
+Assignment 1 respository:https://github.com/kyu065/portfolio
+Assignment 2 respository:https://github.com/kyu065/yatzy
+Assignment 3 respoistory:https://github.com/kyu065/Yatzy2
