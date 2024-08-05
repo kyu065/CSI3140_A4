@@ -21,3 +21,11 @@ CREATE TABLE patients (
     wait_time INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE patients (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    severity TEXT CHECK (severity IN ('Low', 'Medium', 'High')) NOT NULL,
+    wait_time INTEGER NOT NULL,
+    code CHAR(3) UNIQUE NOT NULL
+);

@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // event listener for client page button
+    // Event listener for client page button
     const goToAdminPageButton = document.getElementById("goToAdminPage");
     if (goToAdminPageButton) {
         goToAdminPageButton.addEventListener("click", () => {
@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <td>${patient.name}</td>
                         <td>${patient.severity}</td>
                         <td>${patient.wait_time}</td>
+                        <td>${patient.code}</td> 
                         <td>
                             <form method="POST" action="">
                                 <input type="hidden" name="id" value="${patient.id}">

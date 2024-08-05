@@ -1,8 +1,7 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = htmlspecialchars($_POST["name"]);
-    $severity = htmlspecialchars($_POST["severity"]);
-    $waitTime = htmlspecialchars($_POST["waitTime"]);
+    $code = htmlspecialchars($_POST["code"]);
 
     // Connect to PostgreSQL
     $dsn = 'pgsql:host=localhost;dbname=clientdb';
@@ -12,17 +11,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $pdo = new PDO($dsn, $username, $password);
     } catch (PDOException $e) {
-        echo 'Connection failed: ' . $e->getMessage();
+        echo json_encode(['error' => $e->getMessage()]);
         exit();
     }
 
-    // Inserts the patient data into the database
-    $sql = 'INSERT INTO patients (name, severity, wait_time) VALUES (?, ?, ?)';
+    // Fetch patient data
+    $sql = 'SELECT wait_time FROM patients WHERE name = ? AND code = ?';
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$name, $severity, $waitTime]);
+    $stmt->execute([$name, $code]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    header("Location: client.php"); // Redirects to client page
-    exit();
+    if ($result) {
+        $waitTime = $result['wait_time'];
+        echo "<script>alert('Your approximate wait time is: $waitTime minutes');</script>";
+    } else {
+        echo "<script>alert('Wrong input. Please check your name and code.');</script>";
+    }
 }
 ?>
 
@@ -36,19 +40,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <h1>Patient Data Entry</h1>
-    <h2>Add Patient</h2>
+    <h2>Check Wait Time</h2>
     <form method="POST" action="">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
-        <label for="severity">Severity:</label>
-        <select id="severity" name="severity" required>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-        </select>
-        <label for="waitTime">Wait Time (minutes):</label>
-        <input type="number" id="waitTime" name="waitTime" required>
-        <button type="submit" name="add">Add Patient</button>
+        <label for="code">Code:</label>
+        <input type="text" id="code" name="code" maxlength="3" required> <!-- New field -->
+        <button type="submit" name="check">Check Wait Time</button>
     </form>
 
     <button id="goToAdminPage">Go to Admin Page</button>
